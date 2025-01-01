@@ -26,20 +26,27 @@ export default function WeatherForm() {
     e.preventDefault();
 
     getCoordinates(formInput).then((geo) => {
-      console.warn('geo', geo);
-
+      if (geo.length === 0) {
+        window.confirm('Location not found. Check your country/state code and city spelling.');
+        throw new Error('Location not found. Check your country/state code and city spelling.');
+      }
       const payload = {
         lat: geo[0].lat,
         lon: geo[0].lon,
       };
       getWeather(payload).then((weather) => {
-        console.warn('weather', weather);
         setWeatherText(
           <>
-            <div style={{ marginBottom: '20px', border: '1px solid white', padding: '10px' }}>
-              <h4>What&apos;s the Weather in {formInput.city}?</h4>
-              <p>Current Temp: {weather[4].temp}&deg;F</p>
-              <p>Current Weather: {weather[4].weather[0].description}</p>
+            <div style={{ marginBottom: '20px', border: '1px solid white', borderRadius: '10px', padding: '10px' }}>
+              <h4 style={{ marginBottom: '15px' }}>What&apos;s the Weather in {formInput.city}?</h4>
+              <p style={{ marginBottom: '0px' }}>
+                <strong>Current temp: </strong>
+                {weather[4].temp}&deg;F
+              </p>
+              <p style={{ marginTop: '10px', marginBottom: '0px' }}>
+                <strong>Current conditions: </strong>
+                {weather[4].weather[0].description}
+              </p>
             </div>
             <h5>Check the weather somewhere else</h5>
           </>,
@@ -53,22 +60,25 @@ export default function WeatherForm() {
     <>
       <div style={{ marginBottom: '20px', marginTop: '20px' }}>{weatherText}</div>
       <Form onSubmit={handleSubmit}>
+        {/* THIS LINE MAKES THE FORM SUBMITTABLE BY PRESSING THE ENTER/RETURN KEY */}
+        <input type="submit" hidden />
+
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FormLabel>
-            <Form.Control as="textarea" placeholder="Country (two-letter country code)" style={{ minWidth: '600px' }} name="country" value={formInput.country} onChange={handleChange} required />
+            <Form.Control type="text" placeholder="Country (two-letter country code)" style={{ height: '50px', minWidth: '600px' }} name="country" value={formInput.country} onChange={handleChange} maxLength={2} required />
           </FormLabel>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FormLabel>
-            <Form.Control as="textarea" placeholder="City" style={{ minWidth: '600px' }} name="city" value={formInput.city} onChange={handleChange} required />
+            <Form.Control type="text" placeholder="City" style={{ height: '50px', minWidth: '600px' }} name="city" value={formInput.city} onChange={handleChange} required />
           </FormLabel>
         </Form.Group>
 
         {formInput.country === 'US' ? (
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <FormLabel>
-              <Form.Control as="textarea" placeholder="State (two-letter abbreviation)" style={{ minWidth: '600px' }} name="state" value={formInput.state} onChange={handleChange} />
+              <Form.Control type="text" placeholder="State (two-letter abbreviation)" style={{ height: '50px', minWidth: '600px' }} name="state" value={formInput.state} onChange={handleChange} maxLength={2} />
             </FormLabel>
           </Form.Group>
         ) : (
