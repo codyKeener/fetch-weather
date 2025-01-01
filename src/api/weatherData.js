@@ -1,5 +1,4 @@
 const endpoint = 'https://api.openweathermap.org/data/3.0/onecall';
-// eslint-disable-next-line prefer-destructuring
 const key = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
 // GET THE WEATHER FOR A SET OF COORDINATES
