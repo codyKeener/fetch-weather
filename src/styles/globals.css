@@ -1,4 +1,42 @@
 body {
   background: black;
   color: white;
+  margin: 0;
+  min-height: 920px;
+}
+
+.clear {
+  background-image: url("../../public/images/clear.jpg");
+}
+
+.drizzle {
+  background-image: url("../../public/images/drizzle.jpg");
+}
+
+.hazy {
+  background-image: url("../../public/images/hazy.jpg");
+}
+
+.overcast {
+  background-image: url("../../public/images/overcast.jpg");
+}
+
+.rain {
+  background-image: url("../../public/images/rain.jpg");
+}
+
+.scattered-clouds {
+  background-image: url("../../public/images/scattered-clouds.jpg");
+}
+
+.snow {
+  background-image: url("../../public/images/snow.jpg");
+}
+
+.sunny {
+  background-image: url("../../public/images/sunny.jpg");
+}
+
+.thunderstorm {
+  background-image: url("../../public/images/thunderstorm.jpg");
 }
