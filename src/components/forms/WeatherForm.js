@@ -52,6 +52,34 @@ export default function WeatherForm() {
           </>,
         );
         setFormInput(initialState);
+
+        const mainDiv = document.getElementById('main-app');
+
+        if (weather[4].weather[0].main === 'Thunderstorm') {
+          mainDiv.className = '';
+          mainDiv.classList.add('thunderstorm');
+        } else if (weather[4].weather[0].main === 'Drizzle') {
+          mainDiv.className = '';
+          mainDiv.classList.add('drizzle');
+        } else if (weather[4].weather[0].main === 'Rain') {
+          mainDiv.className = '';
+          mainDiv.classList.add('rain');
+        } else if (weather[4].weather[0].main === 'Snow') {
+          mainDiv.className = '';
+          mainDiv.classList.add('snow');
+        } else if (weather[4].weather[0].main === 'Atmosphere') {
+          mainDiv.className = '';
+          mainDiv.classList.add('hazy');
+        } else if (weather[4].weather[0].main === 'Clear') {
+          mainDiv.className = '';
+          mainDiv.classList.add('clear');
+        } else if (weather[4].weather[0].description === 'overcast clouds') {
+          mainDiv.className = '';
+          mainDiv.classList.add('overcast');
+        } else if (weather[4].weather[0].main === 'Clouds') {
+          mainDiv.className = '';
+          mainDiv.classList.add('scattered-clouds');
+        }
       });
     });
   };
@@ -65,7 +93,7 @@ export default function WeatherForm() {
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FormLabel>
-            <Form.Control type="text" placeholder="Country (two-letter country code)" style={{ height: '50px', minWidth: '600px' }} name="country" value={formInput.country} onChange={handleChange} maxLength={2} required />
+            <Form.Control type="text" placeholder="Country (two- or three-letter country code)" style={{ height: '50px', minWidth: '600px' }} name="country" value={formInput.country} onChange={handleChange} maxLength={3} required />
           </FormLabel>
         </Form.Group>
 
