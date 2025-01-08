@@ -14,6 +14,7 @@ export default function WeatherForm() {
   const [formInput, setFormInput] = useState(initialState);
   const [weatherText, setWeatherText] = useState(<h4>What&apos;s the Weather?</h4>);
 
+  // SETS FORMINPUT STATE EVERY TIME THE FORM INPUT IS CHANGED
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
@@ -22,9 +23,11 @@ export default function WeatherForm() {
     }));
   };
 
+  // FINDS THE COORDINATES AND THE WEATHER FOR THE LOCATION ENTERED INTO THE FORM
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // GET THE COORDINATES FOR THE LOCATION USING THE CITY/STATE/COUNTRY ENTERED INTO THE FORM
     getCoordinates(formInput).then((geo) => {
       if (geo.length === 0) {
         window.confirm('Location not found. Check your country/state code and city spelling.');
@@ -34,6 +37,8 @@ export default function WeatherForm() {
         lat: geo[0].lat,
         lon: geo[0].lon,
       };
+
+      // ONCE THE COORDINATES HAVE BEEN RETURNED, THIS GETS THE WEATHER FOR THOSE COORDINATES
       getWeather(payload).then((weather) => {
         setWeatherText(
           <>
@@ -51,8 +56,10 @@ export default function WeatherForm() {
             <h5>Check the weather somewhere else</h5>
           </>,
         );
+        // SET THE FORM BACK TO EMPTY
         setFormInput(initialState);
 
+        // SET THE BACKGROUND OF THE MAIN APP DIV TO MATCH THE WEATHER RETURNED FROM THE API CALL
         const mainDiv = document.getElementById('main-app');
 
         if (weather[4].weather[0].main === 'Thunderstorm') {
@@ -91,18 +98,21 @@ export default function WeatherForm() {
         {/* THIS LINE MAKES THE FORM SUBMITTABLE BY PRESSING THE ENTER/RETURN KEY */}
         <input type="submit" hidden />
 
+        {/* COUNTRY INPUT */}
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FormLabel>
             <Form.Control type="text" placeholder="Country (two- or three-letter country code)" style={{ height: '50px', minWidth: '600px' }} name="country" value={formInput.country} onChange={handleChange} maxLength={3} required />
           </FormLabel>
         </Form.Group>
 
+        {/* CITY INPUT */}
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FormLabel>
             <Form.Control type="text" placeholder="City" style={{ height: '50px', minWidth: '600px' }} name="city" value={formInput.city} onChange={handleChange} required />
           </FormLabel>
         </Form.Group>
 
+        {/* STATE INPUT (ONLY IF COUNTRY IS US) */}
         {formInput.country === 'US' ? (
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <FormLabel>
@@ -119,7 +129,3 @@ export default function WeatherForm() {
     </>
   );
 }
-
-// WeatherForm.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
